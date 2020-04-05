@@ -1,6 +1,6 @@
-const textArea = document.createElement('textarea');
 const keyboard = document.createElement('div');
-const infoAboutOs = document.createElement('div');
+const infoAboutUs = document.createElement('div');
+const textArea = document.createElement('textarea');
 
 let capsLock = false;
 let isEnglishLayout;
@@ -11,17 +11,17 @@ textArea.readOnly = true;
 if (localStorage) {
     isEnglishLayout = localStorage.value;
 } else {
-    isEnglishLayout = true;
+    isEnglishLayout = 'true';
 }
 
 keyboard.classList.add('keyboard');
 textArea.classList.add('keyboard-input');
-infoAboutOs.classList.add('information');
-
+infoAboutUs.classList.add('information');
+infoAboutUs.innerText = 'Смена языка CTRL + ALT. Выполнено в ОС WINDOWS';
 
 document.body.append(textArea);
 document.body.append(keyboard);
-document.body.append(infoAboutOs);
+document.body.append(infoAboutUs);
 
 const engShiftKeyboardLayout = ['~', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '{', '}', ':', '"', '<', '>', '?'];
 
@@ -55,8 +55,14 @@ function addIdToButtons() {
 
 function changeLanguage() {
     const buttons = document.querySelectorAll('button');
+    if (isEnglishLayout === 'false') {
+        isEnglishLayout = 'true';
+    } else {
+        isEnglishLayout = 'false';
+    }
+
     buttons.forEach((key, index) => {
-        if (isEnglishLayout) {
+        if (isEnglishLayout === 'true') {
             key.innerText = engLayoutKeyboard[index];
         } else {
             key.innerText = ruLayoutKeyboard[index];
@@ -64,7 +70,7 @@ function changeLanguage() {
     });
 }
 
-function runOnKeys(func, ...codes) {
+function runOnKeys(...codes) {
     const pressed = new Set();
     document.addEventListener('keydown', (event) => {
         pressed.add(event.key);
@@ -74,9 +80,6 @@ function runOnKeys(func, ...codes) {
                 return;
             }
         }
-        isEnglishLayout = !isEnglishLayout;
-        localStorage.value = isEnglishLayout;
-        console.log(localStorage.value);
         pressed.clear();
         changeLanguage();
     });
@@ -86,32 +89,19 @@ function runOnKeys(func, ...codes) {
 }
 
 function init() {
-    if (isEnglishLayout) {
+    if (isEnglishLayout === 'true') {
         layoutKeyboard = engLayoutKeyboard;
     } else {
         layoutKeyboard = ruLayoutKeyboard;
     }
     layoutKeyboard.forEach((key) => {
-        const createIconHTML = iconName => `<i class="material-icons">${iconName}</i>`;
         const keyElement = document.createElement('button');
-        const insertLineBreak = ['Backspace', 'Del', 'Enter', '↑', 39].indexOf(key) !== -1;
+        const insertLineBreak = ['Backspace', 'Del', 'Enter', '↑'].indexOf(key) !== -1;
         keyElement.setAttribute('type', 'button');
         keyElement.classList.add('keyboard__key');
         switch (key) {
-            case 'ArrowLeft':
-                keyElement.innerHTML = createIconHTML('keyboard_arrow_left');
-                break;
-            case 'ArrowUp':
-                keyElement.innerHTML = createIconHTML('keyboard_arrow_up');
-                break;
-            case 'ArrowRight':
-                keyElement.innerHTML = createIconHTML('keyboard_arrow_right');
-                break;
-            case 'ArrowDown':
-                keyElement.innerHTML = createIconHTML('keyboard_arrow_down');
-                break;
             case 'Control':
-                keyElement.innerText = 'Ctrl';
+                keyElement.innerText = 'Control';
                 keyElement.classList.add('keyboard__key--wide');
                 break;
             case 'CapsLock':
@@ -143,12 +133,12 @@ function init() {
                 keyElement.classList.add('keyboard__key--wide');
                 break;
             case 'Enter':
-                keyElement.innerHTML = createIconHTML('keyboard_return');
+                keyElement.innerText = 'Enter';
                 keyElement.classList.add('keyboard__key--wide');
                 break;
             case 'Space':
+                keyElement.innerText = 'Space';
                 keyElement.classList.add('keyboard__key--extra--wide');
-                keyElement.innerHTML = createIconHTML('space_bar');
                 break;
             default:
                 keyElement.innerText = key;
@@ -176,6 +166,19 @@ function isCapsLock() {
             }
         });
     }
+}
+
+function isShift() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((event, index) => {
+        if (isEnglishLayout === 'true') {
+            if (index < 13) {
+                event.innerText = engShiftKeyboardLayout[index];
+            }
+        } else if (index < 13) {
+            event.innerText = ruShiftKeyboardLayout[index];
+        }
+    });
 }
 
 function isDelete() {
@@ -210,26 +213,28 @@ document.addEventListener('mousedown', (event) => {
             isCapsLock();
         } else if (event.target.innerText === 'Del') {
             isDelete();
-        } else if (event.target.innerText === 'space_bar' || event.target.firstChild.innerText === 'space_bar') {
+        } else if (event.target.innerText === 'Space') {
             textArea.value += ' ';
-        } else if (event.target.innerText === 'keyboard_return' || event.target.firstChild.innerText === 'keyboard_return') {
+        } else if (event.target.innerText === 'Enter') {
             textArea.value += '\n';
-        } else if (event.target.innerText === 'backspace' || event.target.firstChild.innerText === 'backspace') {
+        } else if (event.target.innerText === 'Backspace') {
             textArea.value = textArea.value.substring(0, textArea.value.length - 1);
         } else if (event.target.innerText === 'Tab') {
             event.preventDefault();
             textArea.value += '    ';
-        } else if (event.target.innerText === 'keyboard_arrow_up' || event.target.firstChild.innerText === 'keyboard_arrow_up') {
+        } else if (event.target.innerText === '↑') {
             textArea.value += '↑';
-        } else if (event.target.innerText === 'keyboard_arrow_down' || event.target.firstChild.innerText === 'keyboard_arrow_dowm') {
+        } else if (event.target.innerText === '↓') {
             textArea.value += '↓';
-        } else if (event.target.innerText === 'keyboard_arrow_left' || event.target.firstChild.innerText === 'keyboard_arrow_left') {
+        } else if (event.target.innerText === '←') {
             isArrowLeft();
-        } else if (event.target.innerText === 'keyboard_arrow_right' || event.target.firstChild.innerText === 'keyboard_arrow_right') {
+        } else if (event.target.innerText === '→') {
             isArrowRight();
-        } else if (event.target.innerText === 'Shift'
-            || event.target.innerText === 'Alt'
-            || event.target.innerText === 'Ctrl') {
+        } else if (event.target.innerText === 'Shift') {
+            isShift();
+        } else if (event.target.innerText === 'Alt'
+            || event.target.innerText === 'Control'
+            || event.target.innerText === 'Win') {
             event.preventDefault();
         } else {
             textArea.value += event.target.innerText;
@@ -238,47 +243,38 @@ document.addEventListener('mousedown', (event) => {
 });
 
 document.onkeydown = (event) => {
-    document.getElementById(event.code).classList.add('keyboard__key_button');
-    if (event.key === 'CapsLock') {
-        isCapsLock();
-    } else if (event.code === 'Delete') {
-        isDelete();
-    } else if (event.key === 'Shift') {
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach((key, index) => {
-            if (isEnglishLayout) {
-                if (index < 13) {
-                    key.innerText = engShiftKeyboardLayout[index];
-                }
-            } else if (index < 13) {
-                key.innerText = ruShiftKeyboardLayout[index];
-            }
-        });
-    } else if (event.code === 'Space') {
-        textArea.value += ' ';
-    } else if (event.code === 'Enter') {
-        textArea.value += '\n';
-    } else if (event.code === 'ShiftRight' || event.code === 'ShiftLeft') {
-        isEnglishLayout = !isEnglishLayout;
-    } else if (event.code === 'Backspace') {
-        textArea.value = textArea.value.substring(0, textArea.value.length - 1);
-    } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
-        event.preventDefault();
-    } else if (event.code === 'Tab') {
-        event.preventDefault();
-        textArea.value += '    ';
-    } else if (event.code === 'ArrowUp') {
-        textArea.value += '↑';
-    } else if (event.code === 'ArrowDown') {
-        textArea.value += '↓';
-    } else if (event.code === 'ArrowLeft') {
-        isArrowLeft();
-    } else if (event.code === 'ArrowRight') {
-        isArrowRight();
-    } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
-        event.preventDefault();
-    } else {
-        textArea.value += document.getElementById(event.code).innerText;
+    if (keyCodes.includes(event.code.toString())) {
+        document.getElementById(event.code).classList.add('keyboard__key_button');
+        if (event.key === 'CapsLock') {
+            isCapsLock();
+        } else if (event.code === 'Delete') {
+            isDelete();
+        } else if (event.key === 'Shift') {
+            isShift();
+        } else if (event.code === 'Space') {
+            textArea.value += ' ';
+        } else if (event.code === 'Enter') {
+            textArea.value += '\n';
+        } else if (event.code === 'Backspace') {
+            textArea.value = textArea.value.substring(0, textArea.value.length - 1);
+        } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+            event.preventDefault();
+        } else if (event.code === 'Tab') {
+            event.preventDefault();
+            textArea.value += '    ';
+        } else if (event.code === 'ArrowUp') {
+            textArea.value += '↑';
+        } else if (event.code === 'ArrowDown') {
+            textArea.value += '↓';
+        } else if (event.code === 'ArrowLeft') {
+            isArrowLeft();
+        } else if (event.code === 'ArrowRight') {
+            isArrowRight();
+        } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
+            event.preventDefault();
+        } else {
+            textArea.value += document.getElementById(event.code).innerText;
+        }
     }
 };
 
@@ -286,13 +282,7 @@ document.addEventListener('mouseup', (event) => {
     setTimeout(() => {
         event.target.classList.remove('keyboard__key_button');
     }, 400);
-});
-
-document.onkeyup = (event) => {
-    setTimeout(() => {
-        document.getElementById(event.code).classList.remove('keyboard__key_button');
-    }, 400);
-    if (event.key === 'Shift') {
+    if (event.target.innerText === 'Shift') {
         const buttons = document.querySelectorAll('button');
         buttons.forEach((key, index) => {
             if (index < 13) {
@@ -300,7 +290,26 @@ document.onkeyup = (event) => {
             }
         });
     }
+});
+
+document.onkeyup = (event) => {
+    if (keyCodes.includes(event.code.toString())) {
+        setTimeout(() => {
+            document.getElementById(event.code).classList.remove('keyboard__key_button');
+        }, 400);
+        if (event.key === 'Shift') {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach((key, index) => {
+                if (index < 13) {
+                    key.innerText = defaultShiftKeyboardLayout[index];
+                }
+            });
+        }
+    }
 };
 init();
 addIdToButtons();
-runOnKeys(changeLanguage(), 'Alt', 'Control');
+runOnKeys('Alt', 'Control');
+window.addEventListener('beforeunload', () => {
+    localStorage.value = isEnglishLayout;
+});

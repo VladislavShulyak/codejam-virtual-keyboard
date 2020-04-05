@@ -18,7 +18,7 @@
 
 .keyboard__key {
     height: 45px;
-    width: 4%;
+    width: 3%;
     max-width: 90px;
     margin: 3px;
     border-radius: 4px;
@@ -72,7 +72,7 @@
 
 .keyboard__key--extra--wide {
     opacity: 0.6;
-    width: 27.5%;
+    width: 16%;
     max-width: 500px;
 }
 
@@ -97,7 +97,10 @@
 }
 
 .information {
-    background-color: yellow;
+    text-align: center;
+    font-family: sans-serif;
     height: 20px;
     width: 100%;
+    font-size: 17px;
+    color: #ff3d64;
 }
