@@ -178,6 +178,9 @@ function isShift() {
         } else if (index < 13) {
             event.innerText = ruShiftKeyboardLayout[index];
         }
+        if (event.innerText.length === 1) {
+            event.innerText = event.innerText.toUpperCase();
+        }
     });
 }
 
@@ -302,6 +305,9 @@ document.onkeyup = (event) => {
             buttons.forEach((key, index) => {
                 if (index < 13) {
                     key.innerText = defaultShiftKeyboardLayout[index];
+                }
+                if (key.innerText.length === 1) {
+                    key.innerText = key.innerText.toLowerCase();
                 }
             });
         }
