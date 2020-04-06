@@ -209,6 +209,18 @@ function isArrowRight() {
     textArea.selectionEnd = currentPosition + 1;
 }
 
+function isShiftUp() {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach((key, index) => {
+        if (index < 13) {
+            key.innerText = defaultShiftKeyboardLayout[index];
+        }
+        if (key.innerText.length === 1) {
+            key.innerText = key.innerText.toLowerCase();
+        }
+    });
+}
+
 document.addEventListener('mousedown', (event) => {
     if (event.target.tagName === 'BUTTON') {
         event.target.classList.add('keyboard__key_button');
@@ -260,7 +272,9 @@ document.onkeydown = (event) => {
             textArea.value += '\n';
         } else if (event.code === 'Backspace') {
             textArea.value = textArea.value.substring(0, textArea.value.length - 1);
-        } else if (event.code === 'ControlLeft' || event.code === 'ControlRight') {
+        } else if (event.key === 'Control'
+                || event.key === 'Meta'
+                || event.key === 'Alt') {
             event.preventDefault();
         } else if (event.code === 'Tab') {
             event.preventDefault();
@@ -273,8 +287,6 @@ document.onkeydown = (event) => {
             isArrowLeft();
         } else if (event.code === 'ArrowRight') {
             isArrowRight();
-        } else if (event.code === 'AltLeft' || event.code === 'AltRight') {
-            event.preventDefault();
         } else {
             textArea.value += document.getElementById(event.code).innerText;
         }
@@ -286,12 +298,7 @@ document.addEventListener('mouseup', (event) => {
         event.target.classList.remove('keyboard__key_button');
     }, 400);
     if (event.target.innerText === 'Shift') {
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach((key, index) => {
-            if (index < 13) {
-                key.innerText = defaultShiftKeyboardLayout[index];
-            }
-        });
+        isShiftUp();
     }
 });
 
@@ -301,21 +308,15 @@ document.onkeyup = (event) => {
             document.getElementById(event.code).classList.remove('keyboard__key_button');
         }, 400);
         if (event.key === 'Shift') {
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach((key, index) => {
-                if (index < 13) {
-                    key.innerText = defaultShiftKeyboardLayout[index];
-                }
-                if (key.innerText.length === 1) {
-                    key.innerText = key.innerText.toLowerCase();
-                }
-            });
+            isShiftUp();
         }
     }
 };
-init();
-addIdToButtons();
-runOnKeys('Alt', 'Control');
+
 window.addEventListener('beforeunload', () => {
     localStorage.value = isEnglishLayout;
 });
+
+init();
+addIdToButtons();
+runOnKeys('Alt', 'Control');

@@ -92,15 +92,29 @@
 }
 
 .keyboard-input {
-    width: 99%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 50px 0 21px 25%;
+    width: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5) ;
+    resize: none;
+    font-size: 18px;
+    font-family: sans-serif, Arial;
     height: 300px;
 }
 
 .information {
     text-align: center;
-    font-family: sans-serif;
+    font-family: sans-serif, Arial;
     height: 20px;
     width: 100%;
     font-size: 17px;
     color: #ff3d64;
+}
+
+@media screen and (max-width: 768px) {
+    .keyboard-input {
+        width: 100%;
+        margin: 0;
+    }
 }
