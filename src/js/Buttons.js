@@ -4,7 +4,6 @@ import keyboard from "./constants/KeyboardConstants.js";
 let currentPosition;
 let capsLock = false;
 
-
 export function isArrowLeft() {
     currentPosition = layout.TEXT_AREA.selectionStart;
     layout.TEXT_AREA.selectionStart = currentPosition - 1;

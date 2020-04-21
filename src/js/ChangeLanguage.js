@@ -1,5 +1,6 @@
 import keyboard from './constants/KeyboardConstants.js';
 
+
 export function changeLanguage() {
     const buttons = document.querySelectorAll('button');
     keyboard.isEnglishLayout = keyboard.isEnglishLayout === 'true' ? 'false' : 'true';

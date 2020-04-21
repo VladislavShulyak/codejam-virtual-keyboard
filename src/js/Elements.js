@@ -4,6 +4,8 @@ import keyboard from './constants/KeyboardConstants.js';
 let layoutKeyboard;
 
 export function createDomElements() {
+    keyboard.isEnglishLayout = localStorage ? localStorage.value : 'true';
+
     layout.KEYBOARD.classList.add('keyboard');
     layout.TEXT_AREA.classList.add('keyboard-input');
     layout.INFO_ABOUT_US.classList.add('information');
@@ -15,6 +17,7 @@ export function createDomElements() {
 }
 
  export function init(isEnglishLayout) {
+     layout.TEXT_AREA.readOnly = true;
      layoutKeyboard = isEnglishLayout === 'true'
          ? keyboard.languageKeyboard.ENG
          : keyboard.languageKeyboard.RU;
