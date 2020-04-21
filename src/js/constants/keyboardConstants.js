@@ -1,4 +1,7 @@
 export default {
+
+    isEnglishLayout: '',
+
     shiftKeyboardLayout: {
         RU: ['Ё', '!', '"', '№', ';', '%', ':', '?', '*', '(',
             ')', '_', '+', '{', '}', ':', '"', '<', '>', '?'],
