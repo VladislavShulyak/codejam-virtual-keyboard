@@ -8,11 +8,7 @@ let layoutKeyboard;
 let currentPosition;
 textArea.readOnly = true;
 
-if (localStorage) {
-    isEnglishLayout = localStorage.value;
-} else {
-    isEnglishLayout = 'true';
-}
+isEnglishLayout = localStorage ? localStorage.value : 'true';
 
 keyboard.classList.add('keyboard');
 textArea.classList.add('keyboard-input');
@@ -55,12 +51,7 @@ function addIdToButtons() {
 
 function changeLanguage() {
     const buttons = document.querySelectorAll('button');
-    if (isEnglishLayout === 'false') {
-        isEnglishLayout = 'true';
-    } else {
-        isEnglishLayout = 'false';
-    }
-
+    isEnglishLayout = 'false' ? 'true' : 'false';
     buttons.forEach((key, index) => {
         if (isEnglishLayout === 'true') {
             key.innerText = engLayoutKeyboard[index];
