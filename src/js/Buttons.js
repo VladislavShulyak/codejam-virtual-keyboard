@@ -1,19 +1,29 @@
 import layout from './constants/LayoutConstants.js';
-import keyboard from "./constants/KeyboardConstants.js";
+import keyboard from './constants/KeyboardConstants.js';
 
 let currentPosition;
 let capsLock = false;
 
-export function isArrowLeft() {
+function changeKeyState(state) {
+    document.querySelectorAll('button').forEach((key) => {
+        if (key.innerText.length === 1) {
+            key.innerText = key.innerText[`to${state}Case`]();
+        }
+    });
+}
+
+function changeCursorPosition(newPosition) {
     currentPosition = layout.TEXT_AREA.selectionStart;
-    layout.TEXT_AREA.selectionStart = currentPosition - 1;
-    layout.TEXT_AREA.selectionEnd = currentPosition - 1;
+    layout.TEXT_AREA.selectionStart = newPosition;
+    layout.TEXT_AREA.selectionEnd = newPosition;
+}
+
+export function isArrowLeft() {
+    changeCursorPosition(currentPosition - 1);
 }
 
 export function isArrowRight() {
-    currentPosition = layout.TEXT_AREA.selectionStart;
-    layout.TEXT_AREA.selectionStart = currentPosition + 1;
-    layout.TEXT_AREA.selectionEnd = currentPosition + 1;
+    changeCursorPosition(currentPosition + 1);
 }
 
 export function isDelete() {
@@ -59,17 +69,5 @@ export function isShift(isEnglishLayout) {
 
 export function isCapsLock() {
     capsLock = !capsLock;
-    if (capsLock) {
-        document.querySelectorAll('button').forEach((key) => {
-            if (key.innerText.length === 1) {
-                key.innerText = key.innerText.toUpperCase();
-            }
-        });
-    } else {
-        document.querySelectorAll('button').forEach((key) => {
-            if (key.innerText.length === 1) {
-                key.innerText = key.innerText.toLowerCase();
-            }
-        });
-    }
+    changeKeyState(capsLock ? 'Upper' : 'Lower');
 }

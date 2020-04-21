@@ -4,7 +4,8 @@
   "description": "virtual keyboard code-jam",
   "main": "src/js/script.js",
   "scripts": {
-    "lint": "eslint --ext .js ./"
+    "lint": "eslint --ext .js ./",
+    "fix" : "eslint --ext .js ./ --fix"
   },
   "repository": {
     "type": "git",

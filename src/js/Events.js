@@ -1,20 +1,22 @@
 import typeOfKey from './TypeOfKey.js';
-import { isShiftUp } from "./Buttons.js";
-import keyboard from "./constants/KeyboardConstants.js";
+import { isShiftUp } from './Buttons.js';
+import keyboard from './constants/KeyboardConstants.js';
 
 export default function listeners() {
     document.addEventListener('mousedown', (event) => {
-        if (event.target.tagName === 'BUTTON') {
-            event.target.classList.add('keyboard__key_button');
-            typeOfKey(event.target.innerText, event);
+        const { target } = event;
+        if (target.tagName === 'BUTTON') {
+            target.classList.add('keyboard__key_button');
+            typeOfKey(target.innerText, event);
         }
     });
 
     document.addEventListener('mouseup', (event) => {
+        const { target } = event;
         setTimeout(() => {
-            event.target.classList.remove('keyboard__key_button');
+            target.classList.remove('keyboard__key_button');
         }, 400);
-        if (event.target.innerText === 'Shift') {
+        if (target.innerText === 'Shift') {
             isShiftUp();
         }
     });

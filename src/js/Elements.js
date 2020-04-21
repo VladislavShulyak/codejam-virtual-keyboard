@@ -23,7 +23,7 @@ export function createDomElements() {
          : keyboard.languageKeyboard.RU;
      layoutKeyboard.forEach((key) => {
          const keyElement = document.createElement('button');
-         const insertLineBreak = ['Backspace', 'Del', 'Enter', '↑'].indexOf(key) !== -1;
+         const insertLineBreak = keyboard.LINE_BREAK.indexOf(key) !== -1;
          keyElement.setAttribute('type', 'button');
          keyElement.innerText = key;
          keyElement.classList.add('keyboard__key');
