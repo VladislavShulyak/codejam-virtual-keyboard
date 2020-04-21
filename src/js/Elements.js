@@ -1,5 +1,5 @@
-import layout from './constants/layoutConstants.js';
-import keyboard from './constants/keyboardConstants.js';
+import layout from './constants/LayoutConstants.js';
+import keyboard from './constants/KeyboardConstants.js';
 
 let layoutKeyboard;
 

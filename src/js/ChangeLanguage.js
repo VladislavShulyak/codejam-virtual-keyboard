@@ -1,4 +1,4 @@
-import keyboard from './constants/keyboardConstants.js';
+import keyboard from './constants/KeyboardConstants.js';
 
 export function changeLanguage() {
     const buttons = document.querySelectorAll('button');
