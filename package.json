@@ -2,7 +2,7 @@
   "name": "codejam-virtual-keyboard",
   "version": "1.0.0",
   "description": "virtual keyboard code-jam",
-  "main": "script.js",
+  "main": "src/js/script.js",
   "scripts": {
     "lint": "eslint --ext .js ./"
   },
@@ -19,6 +19,6 @@
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint-plugin-import": "^2.20.2"
   }
 }
