@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "airbnb-base"
+  ],
+  "rules": {
+    "import/extensions": ["error",  "always", {"ignorePackages": true} ],
+    "max-len": [2, 120, 4, {"ignoreUrls": true}],
+    "no-param-reassign": 0,
+    "indent": "off"
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "node": true,
+    "browser": true,
+    "es6": true
+  }
+}
+
